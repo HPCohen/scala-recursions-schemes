@@ -9,7 +9,7 @@ object Recursions {
   final case class NilF[+T, +R]() extends ListF[T, R]
   final case class ConsF[+T, +R](x: T, xs: R) extends ListF[T, R]
 
-  implicit def listFunctor[T]: Functor[ListF[T, ?]] = new Functor[ListF[T, ?]] {
+  implicit def listFunctor[T]: Functor[({type lam[A] = ListF[T, A]})#lam] = new Functor[({type lam[A] = ListF[T, A]})#lam] {
     override def fmap[A, B](fn: A => B)(lst: ListF[T, A]): ListF[T, B] = lst match {
       case NilF() => NilF()
       case ConsF(x: T, xs: A) => ConsF(x, fn(xs))

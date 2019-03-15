@@ -1,8 +1,4 @@
-resolvers += Resolver.sonatypeRepo("releases")
-
-addCompilerPlugin("org.spire-math" %% "kind-projector" % "0.9.9")
-
-name := "ritual"
+name := "recursions"
 
 version := "0.1"
 

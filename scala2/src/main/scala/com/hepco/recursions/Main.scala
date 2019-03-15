@@ -2,25 +2,25 @@ package com.hepco.recursions
 import Recursions._
 
 object Main {
-  val sumAlg: Algebra[ListF[Int, ?], Int] = {
+  val sumAlg: Algebra[({type lam[A] = ListF[Int, A]})#lam, Int] = {
     case NilF() => 0
     case ConsF(x: Int, xs: Int) => x + xs
   }
 
-  val doubleAlg: Algebra[ListF[Int, ?], Fix[ListF[Int, ?]]] = {
-    case NilF() => Fix[ListF[Int, ?]](NilF())
-    case ConsF(x, xs) => Fix[ListF[Int, ?]](ConsF(2 * x, xs))
+  val doubleAlg: Algebra[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]] = {
+    case NilF() => Fix[({type lam[A] = ListF[Int, A]})#lam](NilF())
+    case ConsF(x, xs) => Fix[({type lam[A] = ListF[Int, A]})#lam](ConsF(2 * x, xs))
   }
 
-  val lst: Fix[ListF[Int, ?]] = Fix[ListF[Int, ?]](
-    ConsF(1, Fix[ListF[Int, ?]](
-      ConsF(2, Fix[ListF[Int, ?]](
-        ConsF(3, Fix[ListF[Int, ?]](
+  val lst: Fix[({type lam[A] = ListF[Int, A]})#lam] = Fix[({type lam[A] = ListF[Int, A]})#lam](
+    ConsF(1, Fix[({type lam[A] = ListF[Int, A]})#lam](
+      ConsF(2, Fix[({type lam[A] = ListF[Int, A]})#lam](
+        ConsF(3, Fix[({type lam[A] = ListF[Int, A]})#lam](
           NilF())))))))
 
   def main(args: Array[String]): Unit = {
-    println(cata[ListF[Int, ?], Int](sumAlg)(lst))
-    println(cata[ListF[Int, ?], Fix[ListF[Int, ?]]](doubleAlg)(lst))
-    println((cata[ListF[Int, ?], Fix[ListF[Int, ?]]](doubleAlg) andThen cata[ListF[Int, ?], Int](sumAlg))(lst))
+    println(cata[({type lam[A] = ListF[Int, A]})#lam, Int](sumAlg)(lst))
+    println(cata[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]](doubleAlg)(lst))
+    println((cata[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]](doubleAlg) andThen cata[ListF[Int, ?], Int](sumAlg))(lst))
   }
 }
