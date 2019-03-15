@@ -21,6 +21,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     println(cata[({type lam[A] = ListF[Int, A]})#lam, Int](sumAlg)(lst))
     println(cata[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]](doubleAlg)(lst))
-    println((cata[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]](doubleAlg) andThen cata[ListF[Int, ?], Int](sumAlg))(lst))
+    println((cata[({type lam[A] = ListF[Int, A]})#lam, Fix[({type lam[A] = ListF[Int, A]})#lam]](doubleAlg) andThen cata[({type lam[A] = ListF[Int, A]})#lam, Int](sumAlg))(lst))
   }
 }
