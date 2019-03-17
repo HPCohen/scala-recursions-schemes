@@ -1,5 +1,8 @@
 package com.hepco.recursions
 
+import scala.language.higherKinds
+import scala.language.reflectiveCalls
+
 object Recursions {
   trait Functor[F[_]] {
     def fmap[A, B](fn: A => B)(fa: F[A]): F[B]
