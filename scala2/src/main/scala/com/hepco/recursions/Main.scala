@@ -19,7 +19,12 @@ object Main {
     case ConsF(x, xs) => if (fil(x)) Fix[({type lam[A] = ListF[Int, A]})#lam](ConsF(x, xs)) else xs
   }
 
-  val printRAlg: RAlgebra[({type lam[A] = ListF[Int, A]})#lam, Unit] = println(_)
+  val printRAlg: RAlgebra[({type lam[A] = ListF[Int, A]})#lam, Unit] = fixed => {
+    curr => {
+      println(s"Look at current setup: $fixed")
+      println(s"Do the operation on: $curr")
+    }
+  }
 
   val lst: Fix[({type lam[A] = ListF[Int, A]})#lam] = Fix[({type lam[A] = ListF[Int, A]})#lam](
     ConsF(1, Fix[({type lam[A] = ListF[Int, A]})#lam](

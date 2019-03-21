@@ -29,13 +29,10 @@ object Recursions {
     alg(f.fmap(cata(alg))(term.unfix))
   }
 
-  type RAlgebra[F[_], A] = F[(Fix[F], A)] => A
-  def &&&[T, R, S](f: T => R, g: T => S): T => (R, S) = t => {
-    (f(t), g(t))
-  }
+  type RAlgebra[F[_], A] = F[Fix[F]] => F[A] => A
 
   def para[F[_]: Functor, T](rAlg: RAlgebra[F, T])(term: Fix[F]): T = {
     val f = implicitly[Functor[F]]
-    rAlg(f.fmap(&&&[Fix[F], Fix[F], T](identity, para(rAlg)))(term.unfix))
+    rAlg(term.unfix)(f.fmap(para(rAlg))(term.unfix))
   }
 }
