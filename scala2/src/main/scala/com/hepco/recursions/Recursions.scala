@@ -36,6 +36,6 @@ object Recursions {
 
   def para[F[_]: Functor, T](rAlg: RAlgebra[F, T])(term: Fix[F]): T = {
     val f = implicitly[Functor[F]]
-    rAlg(f.fmap(&&&(identity, para(rAlg))))(term.unfix)
+    rAlg(f.fmap(&&&[Fix[F], Fix[F], T](identity, para(rAlg)))(term.unfix))
   }
 }
