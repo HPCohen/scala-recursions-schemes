@@ -35,4 +35,14 @@ object Recursions {
     val f = implicitly[Functor[F]]
     rAlg(term.unfix)(f.fmap(para(rAlg))(term.unfix))
   }
+
+  final case class Attr[F[_], A](att: A, hole: F[Attr[F, A]])
+
+  type CVAlgebra[F[_], A] = F[Attr[F, A]] => A
+
+  def histo[F[_]: Functor, T](cvAlg: CVAlgebra[F, T])(term: Fix[F]): T = {
+    val f = implicitly[Functor[F]]
+    def worker(t: Fix[F]): Attr[F, T] = Attr(histo(cvAlg)(t), f.fmap(worker)(term.unfix))
+    cvAlg(f.fmap(worker)(term.unfix))
+  }
 }
